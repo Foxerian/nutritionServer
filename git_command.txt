@@ -1,0 +1,10 @@
+==========================For windows========================================
+Adding gitignore in windows		ren .\.gitignore.txt .\.gitignore
+=============================================================================
+
+
+Check added remotes:			git remote -v
+
+Add remote:				        git remote add <remote_name> <URL>
+
+Push code                       git push <remote_name> <branch_name>

@@ -1,0 +1,13 @@
+1) Initialization of nodejs:                            npm init
+2) Add script start file
+3) For path resolution/express router suppoart:         npm install express@4.16.3 --save
+4) Install morgan for logging                           npm install morgan@1.9.0 --save
+5) Install body parser                                  npm install body-parser@1.18.3 --save
+
+
+Develop using Express Generator
+
+1) Install express generator once                       npm install express-generator@4.16.0 -g
+2) Generate project filess using express generator      express nutritionServer  
+3) Install dependent modules                            npm install
+4) check generated server                               npm start
