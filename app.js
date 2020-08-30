@@ -8,6 +8,17 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const foodRouter = require('./routes/foodrouter');
 
+const mongoose = require('mongoose');
+
+const foodItems = require('./models/foodItem');
+
+const url = 'mongodb://localhost:27017/nutrition';
+const connect = mongoose.connect(url);
+
+connect.then((db) => {
+    console.log("Connected correctly to database server");
+}, (err) => { console.log(err); });
+
 var app = express();
 
 // view engine setup
