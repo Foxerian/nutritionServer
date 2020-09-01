@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const foodItems = require('../models/foodItem');
-
+var authenticate = require('../authenticate');
 const foodRouter = express.Router();
 
 foodRouter.use(bodyParser.json());
@@ -16,7 +16,7 @@ foodRouter.route('/')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.post((req, res, next) => {
+.post(authenticate.verifyUser,(req, res, next) => {
     foodItems.create(req.body)
     .then((fooditem) => {
         console.log('Food item Created ', fooditem);
@@ -30,7 +30,7 @@ foodRouter.route('/')
     res.statusCode = 403;
     res.end('PUT operation not supported on /fooditems');
 })
-.delete((req, res, next) => {
+.delete(authenticate.verifyUser,(req, res, next) => {
     foodItems.remove({})
     .then((resp) => {
         res.statusCode = 200;
@@ -54,7 +54,7 @@ foodRouter.route('/:foodId')
     res.statusCode = 403;
     res.end('POST operation not supported on /fooditems/'+ req.params.foodId);
 })
-.put((req, res, next) => {
+.put(authenticate.verifyUser,(req, res, next) => {
     foodItems.findByIdAndUpdate(req.params.foodId, {
         $set: req.body
     }, { new: true })
@@ -65,7 +65,7 @@ foodRouter.route('/:foodId')
     }, (err) => next(err))
     .catch((err) => next(err));
 })
-.delete((req, res, next) => {
+.delete(authenticate.verifyUser,(req, res, next) => {
     foodItems.findByIdAndRemove(req.params.foodId)
     .then((resp) => {
         res.statusCode = 200;

@@ -3,22 +3,28 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var passport = require('passport');
+var authenticate = require('./authenticate');
+var session = require('express-session');
+var FileStore = require('session-file-store')(session);
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const foodRouter = require('./routes/foodrouter');
+var foodRouter = require('./routes/foodrouter');
 
 const mongoose = require('mongoose');
+var passport = require('passport');
+var authenticate = require('./authenticate');
+var config = require('./config');
 
 const foodItems = require('./models/foodItem');
 
-const url = 'mongodb://localhost:27017/nutrition';
+const url = config.mongoUrl;
 const connect = mongoose.connect(url);
 
 connect.then((db) => {
-    console.log("Connected correctly to database server");
+  console.log("Connected correctly to server");
 }, (err) => { console.log(err); });
-
 var app = express();
 
 // view engine setup
@@ -28,8 +34,9 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(passport.initialize());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
