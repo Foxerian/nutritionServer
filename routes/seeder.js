@@ -2,13 +2,15 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const foodItems = require('../models/foodItem');
 var authenticate = require('../authenticate');
-const foodRouter = express.Router();
+var common = require('../common');
+const seedRouter = express.Router();
 
-foodRouter.use(bodyParser.json());
+seedRouter.use(bodyParser.json());
 
-foodRouter.route('/')
-.get((req,res,next) => {
-    foodItems.find({})
+seedRouter.route('/')
+.get(authenticate.verifyUser,(req,res,next) => {
+    common.cleanUp("seeder");
+    foodItems.find({$and : [{ "complete" : false},{ "seeder" : req.user._id}] })
     .then((fooditems) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
@@ -17,19 +19,38 @@ foodRouter.route('/')
     .catch((err) => next(err));
 })
 .post(authenticate.verifyUser,(req, res, next) => {
-
-    foodItems.create(req.body)
-    .then((fooditem) => {
-        console.log('Food item Created ', fooditem);
+    req.body.seeder = common.getObjectId(req.user._id);
+    //console.log(req.user);
+    foodItems.find({ "name" : req.body.name })
+    .then((fooditems) => {
+        console.log(fooditems);
+        if(common.isEmpty(fooditems))
+        {
+            foodItems.create(req.body)
+            .then((fooditem) => {
+                console.log('Food item Created ', fooditem);
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(fooditem);
+            }, (err) => next(err))
+            .catch((err) => next(err));
+        }
+        else{
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.json(fooditem);
+        res.end("food already added");
+        }
     }, (err) => next(err))
     .catch((err) => next(err));
 })
 .put((req, res, next) => {
     res.statusCode = 403;
     res.end('PUT operation not supported on /fooditems');
+    console.log("timer look up");
+    var timer=timermap.get("chicken");
+    console.log(timer);
+    clearTimeout(timer);
+    console.log("timer cleared out");
 })
 .delete(authenticate.verifyUser,(req, res, next) => {
     foodItems.remove({})
@@ -41,7 +62,7 @@ foodRouter.route('/')
     .catch((err) => next(err));    
 });
 
-foodRouter.route('/:foodId')
+seedRouter.route('/:foodId')
 .get((req,res,next) => {
     foodItems.findById(req.params.foodId)
     .then((fooditem) => {
@@ -56,6 +77,7 @@ foodRouter.route('/:foodId')
     res.end('POST operation not supported on /fooditems/'+ req.params.foodId);
 })
 .put(authenticate.verifyUser,(req, res, next) => {
+    req.body.complete = true;
     foodItems.findByIdAndUpdate(req.params.foodId, {
         $set: req.body
     }, { new: true })
@@ -76,4 +98,4 @@ foodRouter.route('/:foodId')
     .catch((err) => next(err));
 });
 
-module.exports = foodRouter;
+module.exports = seedRouter;

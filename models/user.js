@@ -15,6 +15,18 @@ var User = new Schema({
     admin:   {
         type: Boolean,
         default: false
+    },
+    seeder: {
+        type: Boolean,
+        default: false
+    },
+    reviewer: {
+        type: Boolean,
+        default: false
+    },
+    pay:{
+        type: Number,
+        default: 0
     }
 });
 User.plugin(passportLocalMongoose);

@@ -11,6 +11,8 @@ var FileStore = require('session-file-store')(session);
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var foodRouter = require('./routes/foodrouter');
+var reviewRouter = require('./routes/reviewer');
+var seedRouter = require('./routes/seeder');
 
 const mongoose = require('mongoose');
 var passport = require('passport');
@@ -40,7 +42,9 @@ app.use(passport.initialize());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/fooditems',foodRouter);
+app.use('/fooditems', foodRouter);
+app.use('/seeder', seedRouter);
+app.use('/reviewer', reviewRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

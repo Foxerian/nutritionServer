@@ -16,10 +16,6 @@ var commentSchema = new Schema({
         type: String,
         required: true
     },
-    /*author: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }*/
 }, {
     timestamps: true
 });
@@ -42,27 +38,41 @@ const foodItemSchema = new Schema({
     /*image: {
         type: String,
         required: true
-    },
-    category: {
-        type: String,
-        required: true
-    },
-    label: {
-        type: String,
-        default: ''
     },*/
     price: {
         type: Currency,
         required: true,
         min: 0
     },
-    /*featured: {
+    seeder: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    reviewer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    approved: {
         type: Boolean,
-        default:false      
-    },*/
-    //comments:[commentSchema]
-},{
-    timestamps: true
+        default: false 
+    },
+    rejected: {
+        type: Boolean,
+        default: false
+    },
+    underreview: {
+        type: Boolean,
+        default: false
+    },
+    complete: {
+        type: Boolean,
+        default: false
+    },
+    time:{
+        type: Date,
+        required: true,
+        default: Date.now()
+    }
 });
 
 var foodItems = mongoose.model('foodItem', foodItemSchema);
