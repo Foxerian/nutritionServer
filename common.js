@@ -1,5 +1,6 @@
 var ObjectId = require('mongodb').ObjectId;
-const foodItems = require("./models/foodItem");
+const foodItems = require('./models/foodItem');
+var user = require('./models/user');
 function getObjectId(obj){
     return new ObjectId(obj);
 }
@@ -22,5 +23,16 @@ function cleanUp(arg){
     }
 
 }
+function getPay(arg){
+    user.findById(arg)
+    .then((User) => {
+        console.log(User);
+        console.log(User.pay);
+    },(err) => next(err))
+    .catch((err) => {
+        console.log("error while finding pay for user");
+        next(err)});
+}
 
-module.exports = {isEmpty, getObjectId, cleanUp};
+
+module.exports = {isEmpty, getObjectId, cleanUp, getPay };

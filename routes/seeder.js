@@ -46,11 +46,6 @@ seedRouter.route('/')
 .put((req, res, next) => {
     res.statusCode = 403;
     res.end('PUT operation not supported on /fooditems');
-    console.log("timer look up");
-    var timer=timermap.get("chicken");
-    console.log(timer);
-    clearTimeout(timer);
-    console.log("timer cleared out");
 })
 .delete(authenticate.verifyUser,(req, res, next) => {
     foodItems.remove({})
@@ -78,6 +73,7 @@ seedRouter.route('/:foodId')
 })
 .put(authenticate.verifyUser,(req, res, next) => {
     req.body.complete = true;
+    req.body.rejected = false;
     foodItems.findByIdAndUpdate(req.params.foodId, {
         $set: req.body
     }, { new: true })
@@ -97,5 +93,6 @@ seedRouter.route('/:foodId')
     }, (err) => next(err))
     .catch((err) => next(err));
 });
+
 
 module.exports = seedRouter;
