@@ -34,7 +34,7 @@ router.post('/signup', (req, res, next) => {
           res.json({err: err});
           return ;
         }
-      passport.authenticate('local')(req, res, () => {
+        passport.authenticate('local')(req, res, () => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.json({success: true, status: 'Registration Successful!'});
@@ -46,10 +46,14 @@ router.post('/signup', (req, res, next) => {
 router.post('/login', passport.authenticate('local'), (req, res) => {
   //console.log(req);
   //req.user._id is loaded on req.
-  var token = authenticate.getToken({_id: req.user._id});
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'application/json');
-  res.json({success: true, token: token, status: 'You are successfully logged in!'});
+  User.findById(req.user._id)
+    .then((user) => {
+      var token = authenticate.getToken({_id: req.user._id});
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json');
+      res.json({success: true, token: token, admin: user.admin, seeder: user.seeder, reviewer: user.reviewer, status: 'You are successfully logged in!'});
+    }, (err) => next(err))
+    .catch((err) => next(err));
 });
 
 
