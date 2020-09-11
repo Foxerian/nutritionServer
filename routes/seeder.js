@@ -19,6 +19,7 @@ seedRouter.route('/')
     .catch((err) => next(err));
 })
 .post(authenticate.verifyUser,(req, res, next) => {
+    //console.log(req);
     req.body.seeder = common.getObjectId(req.user._id);
     //console.log(req.user);
     foodItems.find({ "name" : req.body.name })
@@ -31,15 +32,15 @@ seedRouter.route('/')
                 console.log('Food item Created ', fooditem);
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
-                res.json(fooditem);
+                res.json(fooditems);
             }, (err) => next(err))
             .catch((err) => next(err));
         }
         else{
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.end("food already added");
-        }
+        res.json({"failed" : "food already added"});
+       }
     }, (err) => next(err))
     .catch((err) => next(err));
 })
@@ -78,6 +79,7 @@ seedRouter.route('/:foodId')
         $set: req.body
     }, { new: true })
     .then((fooditem) => {
+        console.log(fooditem);
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.json(fooditem);
@@ -86,10 +88,11 @@ seedRouter.route('/:foodId')
 })
 .delete(authenticate.verifyUser,(req, res, next) => {
     foodItems.findByIdAndRemove(req.params.foodId)
-    .then((resp) => {
+    .then((fooditem) => {
+        console.log(fooditem);
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.json(resp);
+        res.json(fooditem);
     }, (err) => next(err))
     .catch((err) => next(err));
 });

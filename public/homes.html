@@ -6,10 +6,27 @@
   src="https://code.jquery.com/jquery-3.5.1.js"
   integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
   crossorigin="anonymous"></script>
-        <script src="javascripts/login.js"></script>
+        <script src="javascripts/seeder.js"></script>
     </head>
 <body>
     <h1>SEEDERS</h1>
+    <form id="foodAddForm">
+        <h3>Type food item you want to add:</h3> <input type="text" name="name"><br>
+        <input id="foodAddSubmit" type="button" name = "submit" value= "search"><br>
+    </form>
+    <h3 id="foodalert"></h3>
+
+    <div id="foodpending" disable=true>
+        <form id="foodUpdateForm">
+            <h3>Complete food details:</h3> 
+            <input id="foodname" type="text" name="name" disabled="disabled"><br>
+            <input type="text" name="description"><br>
+            <input type="number" name="price" min="0"><br>
+            <button type="submit" value= "Submit">Submit</button>
+            <button type="submit" value= "Reject">Reject</button><br>
+        </form>
+
+    </div>
     
 </body>
 

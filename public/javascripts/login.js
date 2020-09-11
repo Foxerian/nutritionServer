@@ -14,6 +14,7 @@ $.fn.serializeObject = function() {
     return o;
 };
 $(document).ready(function(){
+    
     $("#loginsubmit").on('click', function(){
     //var formData = $("#loginform").serializeObject();
     //console.log(formData);
@@ -24,7 +25,9 @@ $(document).ready(function(){
             data : $("#loginform").serializeObject(), // post data || get data
             success : function(result) {
                                         console.log(result);
-                                        window.localStorage.setItem("nutritionServerToken", result.token);
+                                        console.log(result.token);
+                                        localStorage.setItem('nutritionServerToken', result.token);
+                                        //window.localStorage.setItem('nutritionServerToken', result.token);
                                         if(result.admin)
                                                 window.location.replace("/home.html");
                                         else if(result.reviewer)
@@ -33,6 +36,7 @@ $(document).ready(function(){
                                                 //window.open("/myname.html","_self");
                                                 window.location.replace("/homes.html");
                                                 //console.log(window.localStorage.getItem("nutritionServerToken"));
+                                                console.log("new page");
                                     },
             error: function(xhr, resp, text) {
                 console.log(xhr, resp, text);

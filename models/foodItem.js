@@ -33,7 +33,8 @@ const foodItemSchema = new Schema({
     },
     description: {
         type: String,
-        required: true
+        default: ''
+        //required: true
     },
     /*image: {
         type: String,
@@ -41,8 +42,9 @@ const foodItemSchema = new Schema({
     },*/
     price: {
         type: Currency,
-        required: true,
-        min: 0
+        default: 1
+        //required: true,
+        //min: 0
     },
     seeder: {
         type: mongoose.Schema.Types.ObjectId,

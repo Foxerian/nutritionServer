@@ -44,7 +44,7 @@ router.post('/signup', (req, res, next) => {
   });
 });
 router.post('/login', passport.authenticate('local'), (req, res) => {
-  //console.log(req);
+  //console.log(req.body);
   //req.user._id is loaded on req.
   User.findById(req.user._id)
     .then((user) => {

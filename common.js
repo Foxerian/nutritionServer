@@ -12,7 +12,9 @@ function cleanUp(arg){
     {
     foodItems.remove({$and: [{"time" : { $lt : new Date(new Date().getTime() - 1000*30*60)}},{"complete" : false}] })
     .then((fooditems) => {
+        console.log("cleanup ++");
         console.log(fooditems);
+        console.log("cleanup --");
     },(err) => next(err))
     .catch((err) => {
         console.log("error while finding invalid foods");
