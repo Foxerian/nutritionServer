@@ -15,7 +15,9 @@ reviewRouter.route('/')
         console.log(fooditems);
     }, (err) => next(err))
     .catch((err) => next(err));
-    foodItems.findOne({$and : [{ "complete" : true},{ "underreview" : false}] })
+
+
+    foodItems.findOne({$and : [{ "complete" : true},{ "underreview" : false},{"approved":false},{"rejected":false}] })
     .then((fooditems) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
@@ -68,35 +70,38 @@ reviewRouter.route('/:foodId')
     res.end('POST operation not supported on /fooditems/'+ req.params.foodId);
 })
 .put(authenticate.verifyUser,(req, res, next) => {
-    if(req.body.approved)
-    {
-            user.updateMany({_id : { $in: 
-                                            [  
-                                                common.getObjectId(req.body.reviewer), 
-                                                common.getObjectId(req.body.seeder) 
-                                            ] 
-                                    }, 
-                                },
-                                {
-                                    $inc: {"pay":1}
-                                }
-                                ).then((user)=>{
-                                console.log(user);
-                                },(err) => next(err))
-                                .catch((err) => next(err));
-    }
-    else
-    {
-            user.findByIdAndUpdate(req.user.id,{$inc: {"pay":1} },{new:true})
-            .then((user)=>{
+    var seeder_Id;
+
+    foodItems.findById(req.params.foodId)
+        .then((fooditem) => {
+                        console.log("gonna assign seeder id");
+                        console.log(fooditem);
+                        seeder_Id=fooditem.seeder;
+                        console.log(seeder_Id);
+                        user.updateMany({_id : { $in: 
+                                                    [  
+                                                        common.getObjectId(req.user._id), 
+                                                        common.getObjectId(seeder_Id) 
+                                                    ] 
+                                                }, 
+                                        },
+                                        {
+                                            $inc: {"pay":1}
+                                        })
+                        .then((user)=>{
                             console.log(user);
-                        },(err) => next(err))
-            .catch((err) => next(err));
-    }
+                            },(err) => next(err))
+                        .catch((err) => next(err));
+
+                    }, (err) => next(err))
+        .catch((err) => next(err));
+    req.body.approved=true;
+    req.body.underreview=false;
     foodItems.findByIdAndUpdate(req.params.foodId, {
         $set: req.body
     }, { new: true })
     .then((fooditem) => {
+        //console.log(req);
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.json(fooditem);
@@ -104,13 +109,29 @@ reviewRouter.route('/:foodId')
     .catch((err) => next(err));
 })
 .delete(authenticate.verifyUser,(req, res, next) => {
-    foodItems.findByIdAndRemove(req.params.foodId)
-    .then((resp) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.json(resp);
+        res.json({"failed" : "delete not allowed"});
+});
+
+reviewRouter.route('/:foodId/reject')
+.put(authenticate.verifyUser,(req,res,next) => {
+    user.findByIdAndUpdate(req.user._id,{$inc: {"pay":1} })
+    .then((user)=>{
+                    console.log("completed incrementing pay for reviewer");
+                    console.log(user);
+                    },(err) => next(err))
+    .catch((err) => next(err));
+    
+    foodItems.findByIdAndUpdate(req.params.foodId,{"underreview":false, "reviewer":req.user._id,"description":req.body.description,"rejected":true},{new :true})
+    .then((fooditem) => {
+        console.log(fooditem);
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(fooditem);
     }, (err) => next(err))
     .catch((err) => next(err));
-});
+    
+})
 
 module.exports = reviewRouter;
