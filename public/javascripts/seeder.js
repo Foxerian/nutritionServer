@@ -34,6 +34,13 @@ $(document).ready(function(){
                                         console.log("no data found");
                                     }
                                     else{
+                                        if(response[0].rejected)
+                                        {
+                                            console.log("you have rejected food item");
+                                            $('#foodalertreject').text("Please, update rejected entry first");
+                                            $('#foodalertreject').css({"display":"true","color":"red"});
+
+                                        }
                                         document.getElementById("foodUpdateForm").style.display="true";
                                         $("#foodAddSubmit").attr("disabled", true);
                                         document.getElementById("foodname").value=response[0].name;
@@ -127,4 +134,4 @@ $(document).ready(function(){
         });
 
 });
-})
+});
