@@ -10,11 +10,24 @@ seedRouter.use(bodyParser.json());
 seedRouter.route('/')
 .get(authenticate.verifyUser,(req,res,next) => {
     common.cleanUp("seeder");
-    foodItems.find({$and : [{ "complete" : false},{ "seeder" : req.user._id}] })
-    .then((fooditems) => {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(fooditems);
+    foodItems.find({$and : [{"rejected" : true},{"seeder" : req.user._id}]})
+    .then((fooditem) => {
+        if(common.isEmpty(fooditem)){
+            console.log("no rejected food items for this user");
+            foodItems.find({$and : [{ "complete" : false},{ "seeder" : req.user._id}] })
+            .then((fooditems) => {
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(fooditems);
+            }, (err) => next(err))
+            .catch((err) => next(err));
+        }
+        else{
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json(fooditem);
+        }
+        
     }, (err) => next(err))
     .catch((err) => next(err));
 })
