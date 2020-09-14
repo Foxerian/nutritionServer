@@ -1,0 +1,42 @@
+INTRODUCTION
+Basic website with backend service constructed using Nodejs and raw frontend constructed using html,jquery. 
+MongoDB is used as database server.
+
+Technology stack:
+        HTML
+        jquery
+        Ajax
+        Jquery Dom
+        MVC architecture
+        REST
+        Nodejs
+        MongoDB
+        Mongoose
+        JWT authentication
+
+This website will allow users to add food items and later which will be reviewed and then food items will be added to database.
+It supports three types of users.
+1)  seeder which will add food items to database.
+2)  Reviewer which will review food items added by seeders.
+3)  Amin who can see all activities done by seeder and reviewer.
+
+HOW TO SET UP:-
+WINDOW: 1)   Install nodejs on target system.
+        2)   Install mongoDB on target system.
+        3)   Download zip file on target system.
+        4)   Extract zip file on system.
+        5)   Open cmd inside the extracted folder and type following command to install node modules required for project.
+             > npm install
+        6)   check after above commands "node_modules" folder will be created.
+        7)   Make sure mongo db server is running.(ctrl+shift+Esc for window).
+        8)   In mongo db terminal write following command.
+             > use nutrition
+        9)   Go to directory(where node js project is unzipped) and run following commend.
+             >npm start
+        10)  Should see following meesage on terminal.
+             "Connected correctly to server"
+        11)  Open chrome and use following url
+             http://localhost:3000/
+
+Note:
+Add some users in database for this to work.
