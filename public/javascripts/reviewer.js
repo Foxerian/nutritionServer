@@ -23,9 +23,9 @@ $(document).ready(function(){
             url: '/reviewer', // url where to submit the request
             type : "GET", // type of action POST || GET
             dataType : 'json', // data type expected from server
-            beforeSend: function (xhr) {
+            /*beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', st);
-            },
+            },*/
             success : function(response, status, xhr) {
                                         console.log(response);
                                         if(response ==null)
@@ -54,9 +54,9 @@ $(document).ready(function(){
             url: '/reviewer/'+foodItemId, // url where to submit the request
             type : "GET", // type of action POST || GET
             dataType : 'json', // data type expected from server
-            beforeSend: function (xhr) {
+            /*beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', st);
-            },
+            },*/
             success : function(response, status, xhr) {
                                         console.log(response);
                                         //$('#foodReviewForm').css({"display":"true"});
@@ -80,9 +80,9 @@ $(document).ready(function(){
             type : "PUT", // type of action POST || GET
             dataType : 'json', // data type expected from server
             data : $("#foodReviewForm").serializeObject(), // post data to server
-            beforeSend: function (xhr) {
+            /*beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', st);
-            },
+            },*/
             success : function(response, status, xhr) {
                                         console.log(response);
                                         console.log(status);
@@ -99,9 +99,9 @@ $(document).ready(function(){
             type : "PUT", // type of action POST || GET
             dataType : 'json', // data type expected from server
             data : $("#foodReviewForm").serializeObject(), // post data to server
-            beforeSend: function (xhr) {
+            /*beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', st);
-            },
+            },*/
             success : function(response, status, xhr) {
                                         console.log(response);
                                         console.log(status); 

@@ -23,9 +23,9 @@ $(document).ready(function(){
         dataType : 'json', // data type expected from server
         //data : $("#foodAddForm").serializeObject(), // post data to server
         //headers: {"Authorization": localStorage.getItem('token')},
-        beforeSend: function (xhr) {
+        /*beforeSend: function (xhr) {
             xhr.setRequestHeader('Authorization', st);
-        },
+        },*/
         success : function(response, status, xhr) {
                                     console.log(response);
                                     //console.log(status);
@@ -62,9 +62,9 @@ $(document).ready(function(){
             dataType : 'json', // data type expected from server
             data : $("#foodUpdateForm").serializeObject(), // post data to server
             //headers: {"Authorization": localStorage.getItem('token')},
-            beforeSend: function (xhr) {
+            /*beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', st);
-            },
+            },*/
             success : function(response, status, xhr) {
                                         console.log(response);
                                         console.log(status);
@@ -82,9 +82,9 @@ $(document).ready(function(){
             dataType : 'json', // data type expected from server
             data : $("#foodUpdateForm").serializeObject(), // post data to server
             //headers: {"Authorization": localStorage.getItem('token')},
-            beforeSend: function (xhr) {
+            /*beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', st);
-            },
+            },*/
             success : function(response, status, xhr) {
                                         console.log(response);
                                         console.log(status); 
@@ -112,9 +112,9 @@ $(document).ready(function(){
             dataType : 'json', // data type expected from server
             data : $("#foodAddForm").serializeObject(), // post data to server
             //headers: {"Authorization": localStorage.getItem('token')},
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', st);
-            },
+            //beforeSend: function (xhr) {
+            //    xhr.setRequestHeader('Authorization', st);
+            //},
             success : function(response, status, xhr) {
                                         console.log(response);
                                         console.log(status);

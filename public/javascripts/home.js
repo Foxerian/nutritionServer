@@ -44,9 +44,9 @@ $(document).ready(function(){
         dataType : 'json', // data type expected from server
         //data : $("#foodAddForm").serializeObject(), // post data to server
         //headers: {"Authorization": localStorage.getItem('token')},
-        beforeSend: function (xhr) {
+        /*beforeSend: function (xhr) {
             xhr.setRequestHeader('Authorization', st);
-        },
+        },*/
         success : function(response, status, xhr) {
                                     console.log(response);
                                     console.log(status);
