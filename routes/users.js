@@ -51,7 +51,12 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
       var token = authenticate.getToken({_id: req.user._id});
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');
-      res.json({success: true, token: token, admin: user.admin, seeder: user.seeder, reviewer: user.reviewer, status: 'You are successfully logged in!'});
+	  res.cookie("token", token,{ 
+                                  expires: new Date(Date.now() + 900000),
+                                  secure: false,// set to true if your using https
+                                  httpOnly: true,
+                                 });
+      res.json({success: true, admin: user.admin, seeder: user.seeder, reviewer: user.reviewer, status: 'You are successfully logged in!'});
     }, (err) => next(err))
     .catch((err) => next(err));
 });
