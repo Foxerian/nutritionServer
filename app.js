@@ -25,9 +25,17 @@ const url = config.mongoUrl;
 const connect = mongoose.connect(url);
 
 connect.then((db) => {
-  console.log("Connected correctly to server");
+  console.log("Connected correctly to databaseserver");
 }, (err) => { console.log(err); });
 var app = express();
+app.all('*', (req, res, next) => {
+  if (req.secure) {
+    return next();
+  }
+  else {
+    res.redirect(307, 'https://' + req.hostname + ':' + app.get('secPort') + req.url);
+  }
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
